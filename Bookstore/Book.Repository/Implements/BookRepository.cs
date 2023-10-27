@@ -1,4 +1,5 @@
 using Book.Infra.CrossCutting.Context;
+using Book.Repository.CompiledQuery;
 using Book.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +16,15 @@ public class BookRepository : IBookRepository
 
     public async Task<IEnumerable<Domain.Book>> GetAll()
     {
-        var books = await _context.Book.AsNoTracking().ToListAsync();
+        var books = await _context.Book
+            .AsNoTracking().ToListAsync();
 
         return books;
     }
+
+    public Domain.Book? GetBookByIsbnCompiled(string isbn)
+    {
+        return CompiledQueries.GetByIsbn(_context, isbn);
+    }
+  
 }

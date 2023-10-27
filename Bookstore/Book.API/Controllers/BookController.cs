@@ -37,9 +37,9 @@ public class BookController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<BookViewModel>> GetById(Guid id)
+    public ActionResult<Domain.Book?> GetById(Guid id)
     {
-        return Ok();
+        return _bookService.GetBookByIsbnCompiled("978-62-82077-46-4");
     }
 
     [HttpPost]

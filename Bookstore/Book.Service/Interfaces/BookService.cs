@@ -30,4 +30,9 @@ public class BookService : IBookService
 
         return output;
     }
+
+    public Domain.Book? GetBookByIsbnCompiled(string isbn)
+    {
+        return _repository.GetBookByIsbnCompiled(isbn);
+    }
 }

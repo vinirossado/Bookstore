@@ -1,5 +1,4 @@
 using Book.Infra.CrossCutting.Context;
-using Book.Infra.CrossCutting.ErrorHandling;
 using Book.Repository.Implements;
 using Book.Repository.Interfaces;
 using Book.Service.Implements;
@@ -14,9 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
-
+    
 var app = builder.Build();
-app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseExceptionHandler(option => { });
 
 if (app.Environment.IsDevelopment())
 {

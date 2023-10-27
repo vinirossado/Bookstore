@@ -8,4 +8,5 @@ public static class ModelBuilderExtensions
     {
         configuration.Map(builder.Entity<TEntity>());
     }
+    
 }

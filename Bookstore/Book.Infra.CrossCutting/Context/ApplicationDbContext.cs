@@ -20,6 +20,7 @@ public class ApplicationDbContext : DbContext
     {
         // optionsBuilder.UseNpgsql(LaunchEnvironment.DbConnectionString);
         optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Pooling=true;Database=Bookstore;User Id=default;Password=default;");
+
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -32,4 +33,5 @@ public class ApplicationDbContext : DbContext
         builder.AddConfiguration(new PublisherMap());
         builder.AddConfiguration(new ReviewMap());
     }
+  
 }
