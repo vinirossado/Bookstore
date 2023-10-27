@@ -14,7 +14,7 @@ public class IntegrationTest : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
-    public async Task GetAll()
+    public async Task GetAll_EndpointReturnsJsonContentType()
     {
         var client = _factory.CreateClient();
 
@@ -25,14 +25,13 @@ public class IntegrationTest : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
-    public async Task GetAll_Books()
+    public async Task GetAll_EndpointReturnsCorrectItemCount()
     {
         var client = _factory.CreateClient();
 
         var response = await client.GetAsync("/api/book");
 
         response.EnsureSuccessStatusCode();
-
         var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
         Assert.Equal(1653, books.Count());
     }

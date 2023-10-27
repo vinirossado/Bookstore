@@ -29,7 +29,7 @@ public class BookController : ControllerBase
     #region Methods
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Domain.Book>>> GetAll()
+    public async Task<ActionResult<IEnumerable<BookViewModel>>> GetAll()
     {
         var books = await _bookService.GetAll();
 

@@ -10,6 +10,7 @@ public class BookMap : EntityTypeConfiguration<Domain.Book>
     {
         builder.ToTable("books");
         builder.HasKey(x => x.Isbn);
+        
         builder.Property(x => x.Isbn).HasColumnName("isbn").IsRequired();
         builder.Property(x => x.Title).HasColumnName("title");
         builder.Property(x => x.PublicationDate).HasColumnName("publication_date");

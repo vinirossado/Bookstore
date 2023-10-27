@@ -27,5 +27,9 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(builder);
 
         builder.AddConfiguration(new BookMap());
+        builder.AddConfiguration(new AuthorMap());
+        builder.AddConfiguration(new GenreMap());
+        builder.AddConfiguration(new PublisherMap());
+        builder.AddConfiguration(new ReviewMap());
     }
 }

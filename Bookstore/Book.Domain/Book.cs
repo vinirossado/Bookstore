@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 
 namespace Book.Domain;
 
@@ -15,4 +14,5 @@ public record Book
 
     public virtual Author Author { get; set; }
     public virtual Publisher Publisher { get; set; }
+    public virtual IEnumerable<Review> Reviews { get; set; }
 };
