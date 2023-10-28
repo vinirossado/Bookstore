@@ -1,9 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using Book.Infra.CrossCutting.Dtos;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using Newtonsoft.Json;
 
 namespace Book.IntegrationTest;
 
@@ -34,7 +31,7 @@ public class IntegrationTest : IClassFixture<WebApplicationFactory<Program>>
 
         var response = await client.GetAsync("/api/book");
 
-        response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode(); 
         var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
         if (books != null) Assert.Equal(1653, books.Count());
     }

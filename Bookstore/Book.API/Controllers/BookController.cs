@@ -3,6 +3,7 @@ using Book.Infra.CrossCutting.Dtos;
 using Book.Service.Implements;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Book = Book.Domain.Book;
 
 namespace Book.API.Controllers;
 
@@ -23,10 +24,10 @@ public class BookController : ControllerBase
 
     public BookController(IBookService bookService, IValidator<BookFilterDto> validator, ILogger<BookController> logger)
     {
-        _bookService = bookService;
-        _validator = validator;
+        _bookService = bookService ?? throw  new ArgumentException(nameof(bookService));
+        _validator = validator ?? throw  new ArgumentException(nameof(validator));
 
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentException((nameof(logger)));
     }
 
     #endregion Constructors
@@ -51,6 +52,7 @@ public class BookController : ControllerBase
     public async Task<ActionResult<IEnumerable<Domain.Book>>> FilterBooks([FromQuery] BookFilterDto dto)
     {
         var bookValidator = _validator.Validate(dto);
+        
         if (!bookValidator.IsValid)
         {
             return BadRequest(bookValidator.Errors.Select(x => x.ErrorMessage));

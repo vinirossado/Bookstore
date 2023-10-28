@@ -6,7 +6,6 @@ using Book.Service.Implements;
 using Book.Service.Interfaces;
 using FluentValidation;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
