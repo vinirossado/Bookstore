@@ -1,3 +1,4 @@
+using Book.Infra.CrossCutting.Dtos;
 using Book.Repository.Interfaces;
 using Book.Service.Implements;
 using Microsoft.Extensions.Caching.Memory;
@@ -34,5 +35,10 @@ public class BookService : IBookService
     public Domain.Book? GetBookByIsbnCompiled(string isbn)
     {
         return _repository.GetBookByIsbnCompiled(isbn);
+    }
+
+    public async Task<IEnumerable<Domain.Book>> GetBooksByFilter(BookFilterDto dto)
+    {
+        return await _repository.GetBooksByFilter(dto);
     }
 }

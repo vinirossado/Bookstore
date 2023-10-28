@@ -1,5 +1,7 @@
 using Book.API.ViewModel;
+using Book.Infra.CrossCutting.Dtos;
 using Book.Service.Implements;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Book.API.Controllers;
@@ -11,15 +13,18 @@ public class BookController : ControllerBase
     #region Properties
 
     private readonly IBookService _bookService;
+    private readonly IValidator<BookFilterDto> _validator;
+
     private readonly ILogger<BookController> _logger;
 
     #endregion Properties
 
     #region Constructors
 
-    public BookController(IBookService bookService, ILogger<BookController> logger)
+    public BookController(IBookService bookService, IValidator<BookFilterDto> validator, ILogger<BookController> logger)
     {
         _bookService = bookService;
+        _validator = validator;
 
         _logger = logger;
     }
@@ -37,9 +42,23 @@ public class BookController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Domain.Book?> GetById(Guid id)
+    public ActionResult<Domain.Book?> GetById(string id)
     {
-        return _bookService.GetBookByIsbnCompiled("978-62-82077-46-4");
+        return _bookService.GetBookByIsbnCompiled(id);
+    }
+
+    [HttpGet("filter")]
+    public async Task<ActionResult<IEnumerable<Domain.Book>>> FilterBooks([FromQuery] BookFilterDto dto)
+    {
+        var bookValidator = _validator.Validate(dto);
+        if (!bookValidator.IsValid)
+        {
+            return BadRequest(bookValidator.Errors.Select(x => x.ErrorMessage));
+        }
+
+        var books = await _bookService.GetBooksByFilter(dto);
+
+        return Ok(books);
     }
 
     [HttpPost]
