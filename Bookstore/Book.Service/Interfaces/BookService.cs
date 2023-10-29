@@ -39,6 +39,19 @@ public class BookService : IBookService
 
     public async Task<IEnumerable<Domain.Book>> GetBooksByFilter(BookFilterDto dto)
     {
-        return await _repository.GetBooksByFilter(dto);
+        var books = await _repository.GetBooksByFilter(dto);
+
+        var bannedAuthors = books.Where(x => 
+            (x.Author.FirstName?.Contains("ski") ?? false) ||
+            (x.Author.SecondName?.Contains("ski") ?? false));
+
+        books = books.Except(bannedAuthors);
+
+        return books;
+    }
+
+    private async Task<IEnumerable<Domain.Book>> ReturnsEmptyListWhenAuthorNameEndsWithSki()
+    {
+        return await Task.FromResult(Enumerable.Empty<Domain.Book>());
     }
 }

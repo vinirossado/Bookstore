@@ -17,6 +17,6 @@ public class ReviewMap : EntityTypeConfiguration<Review>
         builder.Property(x => x.Rate).HasColumnName("review");
         builder.Property(x => x.BookId).HasColumnName("book_id");
         
-        builder.HasOne(x => x.Book).WithMany(x => x.Reviews).HasForeignKey(x => x.BookId);
+        // builder.HasOne(x => x.Book).WithMany(x => x.Reviews).HasForeignKey(x => x.BookId);
     }
 }

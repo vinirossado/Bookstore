@@ -34,14 +34,14 @@ public class BookRepository : IBookRepository
 
         if (!string.IsNullOrWhiteSpace(dto.Title))
         {
-            query = query.Where(x => x.Title.Contains(dto.Title, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(x => x.Title.Contains(dto.Title));
         }
 
-        if (!string.IsNullOrWhiteSpace(dto.Author))
+        if (!string.IsNullOrWhiteSpace(dto.AuthorName))
         {
             query = query.Where(x =>
-                x.Author.FirstName.Contains(dto.Author, StringComparison.OrdinalIgnoreCase) ||
-                x.Author.SecondName.Contains(dto.Author, StringComparison.OrdinalIgnoreCase));
+                x.Author.FirstName.Contains(dto.AuthorName) ||
+                x.Author.SecondName.Contains(dto.AuthorName));
         }
 
         if (dto.MinPrice.HasValue)

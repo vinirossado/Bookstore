@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Book.Infra.CrossCutting.Context;
 using Book.Infra.CrossCutting.Validators;
 using Book.Repository.Implements;
@@ -15,6 +17,11 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 
 builder.Services.AddValidatorsFromAssemblyContaining<BookFilterDtoValidator>();
     

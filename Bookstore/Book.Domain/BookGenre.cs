@@ -1,6 +1,6 @@
 namespace Book.Domain;
 
-public record BookGenre
+public class BookGenre
 {
     public int GenreId { get; set; }
     public string BookId { get; set; }
