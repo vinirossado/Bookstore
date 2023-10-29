@@ -882,6 +882,8 @@ CREATE OR REPLACE VIEW books_rank AS (
         GROUP BY books.isbn) AS o
   ORDER BY sold DESC, rate DESC
 );
+
+--Comeca os inserts
 INSERT INTO book_adder
 (isbn, title, publication_date, edition, available_quantity, price, first_name, second_name, company_name, publisher)
 VALUES

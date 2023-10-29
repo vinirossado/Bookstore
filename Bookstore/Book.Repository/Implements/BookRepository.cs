@@ -68,4 +68,10 @@ public class BookRepository : IBookRepository
 
         return books;
     }
+
+    public Task Add(Domain.Book book)
+    {
+        _context.Book.Add(book);
+        return _context.SaveChangesAsync();
+    }
 }

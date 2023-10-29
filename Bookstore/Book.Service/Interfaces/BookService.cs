@@ -1,6 +1,7 @@
 using Book.Infra.CrossCutting.Dtos;
 using Book.Repository.Interfaces;
 using Book.Service.Implements;
+using DotNet.Testcontainers.Builders;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Book.Service.Interfaces;
@@ -14,6 +15,7 @@ public class BookService : IBookService
     {
         _repository = repository;
         _memoryCache = memoryCache;
+ 
     }
 
     public async Task<IEnumerable<Domain.Book>> GetAll()
@@ -41,7 +43,7 @@ public class BookService : IBookService
     {
         var books = await _repository.GetBooksByFilter(dto);
 
-        var bannedAuthors = books.Where(x => 
+        var bannedAuthors = books.Where(x =>
             (x.Author.FirstName?.Contains("ski") ?? false) ||
             (x.Author.SecondName?.Contains("ski") ?? false));
 

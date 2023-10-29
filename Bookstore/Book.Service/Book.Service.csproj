@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Book.Repository\Book.Repository.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Testcontainers" Version="3.5.0" />
+    </ItemGroup>
+
 </Project>
