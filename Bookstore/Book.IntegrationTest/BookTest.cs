@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
-using Book.Domain;
 using Book.Repository.Interfaces;
+using Domain;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Book.IntegrationTest;

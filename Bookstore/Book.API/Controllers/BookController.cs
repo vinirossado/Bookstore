@@ -3,9 +3,8 @@ using Book.Infra.CrossCutting.Dtos;
 using Book.Service.Implements;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Book = Book.Domain.Book;
 
-namespace Book.API.Controllers;
+namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,4 +1,4 @@
-namespace Book.Domain;
+namespace Domain;
 
 public class Publisher
 {

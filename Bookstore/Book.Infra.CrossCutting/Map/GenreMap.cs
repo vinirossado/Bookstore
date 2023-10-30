@@ -1,5 +1,5 @@
-using Book.Domain;
 using Book.Infra.CrossCutting.Extensions;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
