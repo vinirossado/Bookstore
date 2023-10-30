@@ -23,10 +23,7 @@ public abstract class BaseIntegrationTest
         DbContext = _scope.ServiceProvider
             .GetRequiredService<ApplicationDbContext>();
 
-        // _factory.Services.<ApplicationDbContext>(options =>
-        //   options.UseNpgsql(_postgres.GetConnectionString()));
     }
-
 
     public void Dispose()
     {
