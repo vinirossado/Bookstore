@@ -4,14 +4,14 @@ using Npgsql;
 
 namespace Book.IntegrationTest;
 
-public abstract class BaseIntegrationTest
+public class BaseIntegrationTest
     : IClassFixture<IntegrationTestWebAppFactory>,
         IAsyncLifetime,
         IDisposable
 {
-    protected readonly IServiceScope _scope;
     protected readonly ApplicationDbContext DbContext;
     protected readonly HttpClient _client;
+    protected readonly IServiceScope _scope;
     private readonly IntegrationTestWebAppFactory _factory;
 
     protected BaseIntegrationTest(IntegrationTestWebAppFactory factory)
@@ -22,7 +22,6 @@ public abstract class BaseIntegrationTest
 
         DbContext = _scope.ServiceProvider
             .GetRequiredService<ApplicationDbContext>();
-
     }
 
     public void Dispose()

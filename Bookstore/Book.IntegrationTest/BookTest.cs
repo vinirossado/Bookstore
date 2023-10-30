@@ -21,7 +21,7 @@ public class IntegrationTest : BaseIntegrationTest
         var book = new Domain.Book
         {
             Title = "Test",
-            Isbn = "123-123-123",
+            Isbn = "2-945-90048-3",
             Author = new Domain.Author
             {
                 FirstName = "Test",
@@ -47,7 +47,9 @@ public class IntegrationTest : BaseIntegrationTest
         response.EnsureSuccessStatusCode();
 
         var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
-        if (books != null) Assert.Equal(1653, books.Count());
+
+        if (books != null)
+            Assert.Equal(1, books.Count());
     }
 
     // [Fact]

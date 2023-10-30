@@ -7,20 +7,18 @@ namespace Book.Infra.CrossCutting.Context;
 
 public class ApplicationDbContext : DbContext
 {
+    public DbSet<Domain.Author> Author { get; set; }
     public DbSet<Domain.Book> Book { get; set; }
+    // public DbSet<Domain.BookGenre> BookGenre { get; set; }
+    public DbSet<Domain.Genre> Genre { get; set; }
+    public DbSet<Domain.Publisher> Publisher { get; set; }
+    public DbSet<Domain.Review> Review { get; set; }
 
     protected readonly IConfiguration _configuration;
 
     public ApplicationDbContext(IConfiguration configuration, DbContextOptions<ApplicationDbContext> options) : base(options)
     {
         _configuration = configuration;
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        // optionsBuilder.UseNpgsql(LaunchEnvironment.DbConnectionString);
-        optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Pooling=true;Database=Bookstore;User Id=default;Password=default;");
-
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -30,8 +28,8 @@ public class ApplicationDbContext : DbContext
         builder.AddConfiguration(new BookMap());
         builder.AddConfiguration(new AuthorMap());
         builder.AddConfiguration(new GenreMap());
+        // builder.AddConfiguration(new BookGenreMap());
         builder.AddConfiguration(new PublisherMap());
         builder.AddConfiguration(new ReviewMap());
     }
-  
 }
