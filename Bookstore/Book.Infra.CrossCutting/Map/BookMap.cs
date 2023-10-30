@@ -1,3 +1,4 @@
+using Book.Domain;
 using Book.Infra.CrossCutting.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -10,7 +11,7 @@ public class BookMap : EntityTypeConfiguration<Domain.Book>
     {
         builder.ToTable("books");
         builder.HasKey(x => x.Isbn);
-        
+
         builder.Property(x => x.Isbn).HasColumnName("isbn").IsRequired();
         builder.Property(x => x.Title).HasColumnName("title");
         builder.Property(x => x.PublicationDate).HasColumnName("publication_date");
@@ -19,9 +20,10 @@ public class BookMap : EntityTypeConfiguration<Domain.Book>
         builder.Property(x => x.Price).HasColumnName("price");
         builder.Property(x => x.AuthorId).HasColumnName("author");
         builder.Property(x => x.PublisherId).HasColumnName("publisher");
+
+        builder.HasMany(x => x.Genres).WithMany(x => x.Books).UsingEntity<BookGenre>();
         
         builder.HasOne(x => x.Author).WithMany(e => e.Books).HasForeignKey(x => x.AuthorId);
         builder.HasOne(x => x.Publisher).WithMany(e => e.Books).HasForeignKey(x => x.PublisherId);
-        
     }
 }

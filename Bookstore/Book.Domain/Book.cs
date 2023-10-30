@@ -9,13 +9,16 @@ public class Book
     public int Edition { get; set; }
     public int AvailableQuantity { get; set; }
     public decimal Price { get; set; }
-
     public virtual Author Author { get; set; }
 
     public virtual Publisher Publisher { get; set; }
     // public virtual IEnumerable<Review> Reviews { get; set; }
 
+    public virtual List<Genre> Genres { get; } = new();
+    public virtual List<BookGenre> BookGenres { get; } = new();
+
     private DateTime _publicationDate;
+
     public DateTime PublicationDate
     {
         get { return _publicationDate; }

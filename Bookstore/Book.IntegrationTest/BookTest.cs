@@ -1,8 +1,7 @@
-using System.Net;
 using System.Net.Http.Json;
+using Book.Domain;
 using Book.Repository.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using Book = Book.Domain.Book;
 
 namespace Book.IntegrationTest;
 
@@ -18,11 +17,10 @@ public class IntegrationTest : BaseIntegrationTest
     [Fact]
     public async Task GetAll_EndpointReturnsCorrectItemCount()
     {
-        var book = new Domain.Book
-        {
+        var book = new Domain.Book {
             Title = "Test",
             Isbn = "2-945-90048-3",
-            Author = new Domain.Author
+            Author = new Author
             {
                 FirstName = "Test",
                 SecondName = "Test"
@@ -31,13 +29,11 @@ public class IntegrationTest : BaseIntegrationTest
             Edition = 1,
             Price = 1,
             PublicationDate = DateTime.Now,
-            Publisher = new Domain.Publisher
+            Publisher = new Publisher
             {
                 Name = "Test"
             }
         };
-
-        // newBooks.Add(book);
 
         await DbContext.Book.AddAsync(book);
         await DbContext.SaveChangesAsync();
@@ -49,7 +45,7 @@ public class IntegrationTest : BaseIntegrationTest
         var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
 
         if (books != null)
-            Assert.Equal(1, books.Count());
+            Assert.Single(books);
     }
 
     // [Fact]

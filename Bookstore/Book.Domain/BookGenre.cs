@@ -2,9 +2,8 @@ namespace Book.Domain;
 
 public class BookGenre
 {
-    public int GenreId { get; set; }
     public string BookId { get; set; }
-
-    public virtual IList<Book> Books { get; set; }
-    public virtual IList<Genre> Genres { get; set; }
+    public int GenreId { get; set; }
+    // public virtual Book Book { get; set; } = null;
+    // public virtual Genre Genre { get; set; } = null;
 };
