@@ -10,13 +10,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0-rc.2.23480.2" />
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0-rc.2.23480.2" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-rc.2.23479.6" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
-        <PackageReference Include="Testcontainers.PostgreSql" Version="3.5.0" />
-        <PackageReference Include="xunit" Version="2.4.2" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+        <PackageReference Include="Testcontainers.PostgreSql" Version="3.6.0" />
+        <PackageReference Include="xunit" Version="2.6.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
@@ -28,6 +28,21 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Book.API\Book.API.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="xunit.assert">
+        <HintPath>..\..\..\..\..\..\..\home\rossado\.nuget\packages\xunit.assert\2.4.2\lib\netstandard1.1\xunit.assert.dll</HintPath>
+      </Reference>
+      <Reference Include="xunit.core">
+        <HintPath>..\..\..\..\..\..\..\home\rossado\.nuget\packages\xunit.extensibility.core\2.4.2\lib\netstandard1.1\xunit.core.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="xunit.assert">
+        <HintPath>..\..\..\..\..\..\..\home\rossado\.nuget\packages\xunit.assert\2.4.2\lib\netstandard1.1\xunit.assert.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
