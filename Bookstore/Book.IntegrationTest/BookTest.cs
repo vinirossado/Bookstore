@@ -49,15 +49,37 @@ public class IntegrationTest : BaseIntegrationTest
             Assert.Single(books);
     }
 
-    // [Fact]
-    // public async Task GetBookByIsbn_EndpointReturnsCorrectItem()
-    // {
-    //     var response = await _client.GetAsync("/api/book/978-62-82077-46-4");
-    //
-    //     response.EnsureSuccessStatusCode();
-    //     var book = await response.Content.ReadFromJsonAsync<Domain.Book>();
-    //     Assert.Equal("978-62-82077-46-4", book?.Isbn);
-    // }
+    [Fact]
+    public async Task GetBookByIsbn_EndpointReturnsCorrectItem()
+    {
+        var newBook = new Domain.Book
+        {
+            Title = "Test",
+            Isbn = "978-62-82077-46-4",
+            Author = new Author
+            {
+                FirstName = "Test",
+                SecondName = "Test"
+            },
+            AvailableQuantity = 1,
+            Edition = 1,
+            Price = 1,
+            PublicationDate = DateTime.Now,
+            Publisher = new Publisher
+            {
+                Name = "Test"
+            }
+        };
+        
+        await DbContext.Book.AddAsync(newBook);
+        await DbContext.SaveChangesAsync();
+        
+        var response = await _client.GetAsync("/api/book/978-62-82077-46-4");
+    
+        response.EnsureSuccessStatusCode();
+        var book = await response.Content.ReadFromJsonAsync<Domain.Book>();
+        Assert.Equal("978-62-82077-46-4", book?.Isbn);
+    }
     
     [Fact]
     public async Task GetBooksByFilter_ReturnsBadRequestWhenThereAreNoFilters()
@@ -70,63 +92,173 @@ public class IntegrationTest : BaseIntegrationTest
     
         Assert.Equal("[\"Needs to have at least one property with value\"]", content);
     }
-    //
-    // [Fact]
-    // public async Task GetBooksByFilter_FilterByTitle_ReturnsMatchingBooks()
-    // {
-    //     var response = await _client.GetAsync("/api/book/filter?Title=Kontratak");
-    //
-    //     var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
-    //
-    //     var book = books.First();
-    //     Assert.Equal("978-03-19379-22-4", book.Isbn);
-    //     Assert.Equal("Kontratak", book.Title);
-    //     Assert.Equal("1906-04-02", book.PublicationDate.ToString("yyyy-MM-dd"));
-    //     Assert.Equal(1, book.Edition);
-    //     Assert.Equal(59, book.AvailableQuantity);
-    //     Assert.Equal((decimal)27.20, book.Price);
-    //     Assert.Equal("Maciek", book.Author.FirstName);
-    // }
-    //
-    // [Fact]
-    // public async Task GetBooksByFilter_FilterByAuthor_ReturnsMatchingBooks()
-    // {
-    //     var response = await _client.GetAsync("/api/book/filter?AuthorName=Bartłomiej");
-    //
-    //     var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
-    //
-    //     Assert.Equal("Bartłomiej", books.First().Author.FirstName);
-    //     Assert.Equal(17, books.Count());
-    // }
-    //
-    // [Fact]
-    // public async Task GetBooksByFilter_FilterByAuthorSecondName_ReturnsMatchingBooks()
-    // {
-    //     var response = await _client.GetAsync("/api/book/filter?AuthorName=Cebulska");
-    //
-    //     var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
-    //
-    //     Assert.Equal("Cebulska", books.First().Author.SecondName);
-    //     Assert.Equal(9, books.Count());
-    // }
-    //
-    // [Fact]
-    // public async Task GetBooksByFilter_FilterByAuthorSecondName_ReturnsEmptyListWhenAuthorNameEndsWithSki()
-    // {
-    //     var response = await _client.GetAsync("/api/book/filter?AuthorName=Wiśniewski");
-    //
-    //     var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
-    //
-    //     Assert.Equal(0, books.Count());
-    // }
-    //
-    // [Fact]
-    // public async Task GetBooksByFilter_FilterByMinPriceIsZero_ReturnsMatchingBooks()
-    // {
-    //     var response = await _client.GetAsync("/api/book/filter?MinPrice=0");
-    //
-    //     var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
-    //
-    //     Assert.Equal(1407, books.Count());
-    // }
+    
+    [Fact]
+    public async Task GetBooksByFilter_FilterByTitle_ReturnsMatchingBooks()
+    {
+        var newBook = new Domain.Book
+        {
+            Title = "Kontratak",
+            Isbn = "978-03-19379-22-4",
+            Author = new Author
+            {
+                FirstName = "Maciek",
+                SecondName = "Test"
+            },
+            AvailableQuantity = 59,
+            Edition = 1,
+            Price = (decimal)27.20,
+            PublicationDate = new DateTime(1906, 4, 2),
+            Publisher = new Publisher
+            {
+                Name = "Test"
+            }
+        };
+
+        await DbContext.Book.AddAsync(newBook);
+        await DbContext.SaveChangesAsync();
+        
+        var response = await _client.GetAsync("/api/book/filter?Title=Kontratak");
+    
+        var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
+    
+        var book = books.First();
+        Assert.Equal("978-03-19379-22-4", book.Isbn);
+        Assert.Equal("Kontratak", book.Title);
+        Assert.Equal("1906-04-02", book.PublicationDate.ToString("yyyy-MM-dd"));
+        Assert.Equal(1, book.Edition);
+        Assert.Equal(59, book.AvailableQuantity);
+        Assert.Equal((decimal)27.20, book.Price);
+        Assert.Equal("Maciek", book.Author.FirstName);
+    }
+      [Fact]
+       public async Task GetBooksByFilter_FilterByAuthor_ReturnsMatchingBooks()
+       {
+           var newBook = new Domain.Book
+           {
+               Title = "Kontratak",
+               Isbn = "978-03-19379-22-4",
+               Author = new Author
+               {
+                   FirstName = "Bartłomiej",
+                   SecondName = "Test"
+               },
+               AvailableQuantity = 59,
+               Edition = 1,
+               Price = (decimal)27.20,
+               PublicationDate = new DateTime(1906, 4, 2),
+               Publisher = new Publisher
+               {
+                   Name = "Test"
+               }
+           };
+           
+           await DbContext.Book.AddAsync(newBook);
+           await DbContext.SaveChangesAsync();
+           
+           var response = await _client.GetAsync("/api/book/filter?AuthorName=Bartłomiej");
+       
+           var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
+       
+           Assert.Equal("Bartłomiej", books.First().Author.FirstName);
+           Assert.Equal(1, books.Count());
+       } 
+ 
+    
+    [Fact]
+    public async Task GetBooksByFilter_FilterByAuthorSecondName_ReturnsMatchingBooks()
+    {
+        var newBook = new Domain.Book
+        {
+            Title = "Kontratak",
+            Isbn = "978-03-19379-22-4",
+            Author = new Author
+            {
+                FirstName = "Bartłomiej",
+                SecondName = "Cebulska"
+            },
+            AvailableQuantity = 59,
+            Edition = 1,
+            Price = (decimal)27.20,
+            PublicationDate = new DateTime(1906, 4, 2),
+            Publisher = new Publisher
+            {
+                Name = "Test"
+            }
+        };
+           
+        await DbContext.Book.AddAsync(newBook);
+        await DbContext.SaveChangesAsync();
+        
+        var response = await _client.GetAsync("/api/book/filter?AuthorName=Cebulska");
+    
+        var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
+    
+        Assert.Equal("Cebulska", books.First().Author.SecondName);
+        Assert.Equal(1, books.Count());
+    }
+    
+    [Fact]
+    public async Task GetBooksByFilter_FilterByAuthorSecondName_ReturnsEmptyListWhenAuthorNameEndsWithSki()
+    {
+        var newBook = new Domain.Book
+        {
+            Title = "Kontratak",
+            Isbn = "978-03-19379-22-4",
+            Author = new Author
+            {
+                FirstName = "Wiśniewski",
+                SecondName = "Wiśniewski"
+            },
+            AvailableQuantity = 59,
+            Edition = 1,
+            Price = (decimal)27.20,
+            PublicationDate = new DateTime(1906, 4, 2),
+            Publisher = new Publisher
+            {
+                Name = "Test"
+            }
+        };
+           
+        await DbContext.Book.AddAsync(newBook);
+        await DbContext.SaveChangesAsync();
+        
+        var response = await _client.GetAsync("/api/book/filter?AuthorName=Wiśniewski");
+    
+        var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
+    
+        Assert.Equal(0, books.Count());
+    }
+    
+    [Fact]
+    public async Task GetBooksByFilter_FilterByMinPriceIsZero_ReturnsMatchingBooks()
+    {
+      var newBook = new Domain.Book
+        {
+            Title = "Kontratak",
+            Isbn = "978-03-19379-22-4",
+            Author = new Domain.Author
+            {
+                FirstName = "Maciek",
+                SecondName = "Test"
+            },
+            AvailableQuantity = 59,
+            Edition = 1,
+            Price = (decimal)0.5,
+            PublicationDate = new DateTime(1906, 4, 2),
+            Publisher = new Domain.Publisher
+            {
+                Name = "Test"
+            }
+        };
+        
+        await DbContext.Book.AddAsync(newBook);
+        await DbContext.SaveChangesAsync();
+        
+        var response = await _client.GetAsync("/api/book/filter?MinPrice=0");
+    
+        var books = await response.Content.ReadFromJsonAsync<List<Domain.Book>>();
+    
+        Assert.Equal(1, books.Count());
+    }
 }
